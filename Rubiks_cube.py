@@ -2,22 +2,29 @@ import numpy as np
 from Faces import Faces
 from Actions2 import Actions
 
-class Rubiks_Cube:
-    def __init__(self, faces, actions):
-        self.faces = faces
-        self.actions = actions
+class RubiksCube:
+    def __init__(self):
+        self.faces = Faces()
+        self.actions = Actions()
+        
+    def set_rubik(self):
+        self.faces.set_initial_face()
+        self.actions.set_actions()
+        self.faces.print_faces()
+        
+    def set_new_state(self, action):
+        self.faces = self.use_action(action)
+        self.faces.print_faces()
 
-
-
-
-def set_cube(rubik):
+    def use_action(self, action):
+        switch = {1: self.r_up(),
+                  2: self.r_down()}
+        funcion = switch.get(opcion, default_case)
+        return new_state
     
-    return rubik
+    def print_faces():
+        return 0
 
 
-
-actions = Actions()
-actions.set_actions()
-faces = Faces()
-faces.set_faces()
-rubik = Rubiks_Cube(faces.get_faces(), actions.get_actions())
+rubik = RubiksCube()
+rubik.set_rubik()

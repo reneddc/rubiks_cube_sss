@@ -25,8 +25,10 @@ def r_action(rubiks_cube, side):
     if side == "Up":
         new_face = turn_face(face)
         values_to_change = [rubiks_cube[matriz][:, -1] for matriz in r_actions]
+        print("matriz que cambia")
         print(values_to_change)
         movement = np.roll(values_to_change,1)
+        
         print(movement)
         print(r_actions)
         for i in range(4):
