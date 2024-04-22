@@ -18,20 +18,27 @@ d_actions = [0,1,4,5]
 f_actions = [0,1,3,5]
 b_actions = [0,1,3,5]
 
-def turn_face(face):
-    face_reverse = face[::-1]
-    new_face = np.transpose(face_reverse).tolist()
-    return new_face
+# def turn_face(face):
+#     face_reverse = face[::-1]
+#     new_face = np.transpose(face_reverse).tolist()
+#     return new_face
 
-def turn_face_prime(face):
-    new_face = np.transpose(face).tolist()
-    new_face = new_face[::-1]
+# def turn_face_prime(face):
+#     new_face = np.transpose(face).tolist()
+#     new_face = new_face[::-1]
+#     return new_face
+
+def turn_face(face, prime):
+    if prime:
+        new_face = np.rot90(face, ).tolist()  # Rotar 180 grados
+    else:
+        new_face = np.rot90(face, 3).tolist()  # Rotar 90 grados en sentido horario
     return new_face
 
 def r_up(rubiks_cube):
     rubiks_cube[5] = rubiks_cube[5][::-1,::-1] #back_face
     new_cube = rubiks_cube.copy()
-    new_cube[4] = turn_face(new_cube[4]) # rotando la cara
+    new_cube[4] = turn_face(new_cube[4], False) # rotando la cara
     rotation_list = np.roll(r_actions,shift = -1) #setea como debe ser el orden de cambio
     print(rotation_list)
     for i in range(4):
@@ -42,7 +49,7 @@ def r_up(rubiks_cube):
 def r_down(rubiks_cube):
     rubiks_cube[5] = rubiks_cube[5][::-1,::-1] #back_face
     new_cube = rubiks_cube.copy()
-    new_cube[4] = turn_face_prime(new_cube[4]) # rotando la cara
+    new_cube[4] = turn_face(new_cube[4], True) # rotando la cara
     rotation_list = np.roll(r_actions,shift = 1) #setea como debe ser el orden de cambio
     print(rotation_list)
     for i in range(4):
@@ -60,7 +67,7 @@ def r_down(rubiks_cube):
 print("R_UP------------------")
 rubiks_cube = r_up(rubiks_cube)
 print(rubiks_cube)
- 
+
 print()
 print("R_DOWN------------------")
 print(r_down(rubiks_cube))
