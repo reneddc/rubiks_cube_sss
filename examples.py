@@ -18,16 +18,6 @@ d_actions = [0,1,4,5]
 f_actions = [0,1,3,5]
 b_actions = [0,1,3,5]
 
-# def turn_face(face):
-#     face_reverse = face[::-1]
-#     new_face = np.transpose(face_reverse).tolist()
-#     return new_face
-
-# def turn_face_prime(face):
-#     new_face = np.transpose(face).tolist()
-#     new_face = new_face[::-1]
-#     return new_face
-
 def turn_face(face, prime):
     if prime:
         new_face = np.rot90(face, ).tolist()  # Rotar 180 grados
@@ -35,35 +25,23 @@ def turn_face(face, prime):
         new_face = np.rot90(face, 3).tolist()  # Rotar 90 grados en sentido horario
     return new_face
 
-def r_up(rubiks_cube):
-    rubiks_cube[5] = rubiks_cube[5][::-1,::-1] #back_face
+def r_action(rubiks_cube, rotate_up):
+    rubiks_cube[5] = rubiks_cube[5][::-1,::-1]
     new_cube = rubiks_cube.copy()
-    new_cube[4] = turn_face(new_cube[4], False) # rotando la cara
-    rotation_list = np.roll(r_actions,shift = -1) #setea como debe ser el orden de cambio
-    print(rotation_list)
+    rotate_direction = False if rotate_up else True
+    new_cube[4] = turn_face(new_cube[4], rotate_direction)
+    rotation_list = np.roll(r_actions, shift=-1 if rotate_up else 1)
     for i in range(4):
         new_cube[r_actions[i]][:, -1] = rubiks_cube[rotation_list[i]][:, -1]
-    new_cube[5] = new_cube[5][::-1,::-1] #back_face
+    new_cube[5] = new_cube[5][::-1,::-1]
     return new_cube
+
+def r_up(rubiks_cube):
+    return r_action(rubiks_cube, True)
 
 def r_down(rubiks_cube):
-    rubiks_cube[5] = rubiks_cube[5][::-1,::-1] #back_face
-    new_cube = rubiks_cube.copy()
-    new_cube[4] = turn_face(new_cube[4], True) # rotando la cara
-    rotation_list = np.roll(r_actions,shift = 1) #setea como debe ser el orden de cambio
-    print(rotation_list)
-    for i in range(4):
-        print()
-        new_cube[r_actions[i]][:, -1] = rubiks_cube[rotation_list[i]][:, -1]
-    new_cube[5] = new_cube[5][::-1,::-1] #back_face
-    return new_cube
-    
+    return r_action(rubiks_cube, False)
 
-
-# result = turn_face(rubiks_cube[0])
-# print(result)
-# result = turn_face_prime(rubiks_cube[0])
-# print(result)
 print("R_UP------------------")
 rubiks_cube = r_up(rubiks_cube)
 print(rubiks_cube)
