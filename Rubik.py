@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import ListedColormap
-from examples import r_up, r_down
+from examples import r_up, r_down, l_up, l_down
 
 # Definir los colores de cada cara del cubo de Rubik
 colores = {
@@ -24,7 +24,7 @@ cara_invisible = np.zeros((3, 3))
 
 rubiks_cube = np.array([cara_superior, cara_izquierda, cara_frontal, cara_inferior, cara_derecha, cara_trasera]) 
 rubiks_cube = r_up(rubiks_cube)
-rubiks_cube = r_up(rubiks_cube)
+rubiks_cube = l_up(rubiks_cube)
 
 caras = [
     [cara_invisible, rubiks_cube[0], cara_invisible, cara_invisible],
