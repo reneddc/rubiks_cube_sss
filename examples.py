@@ -77,7 +77,6 @@ def f_action(rubiks_cube, rotate_up):
     rubiks_cube[1] = rubiks_cube[1][::-1,::-1]
     rubiks_cube[0] = turn_face(rubiks_cube[0], False)
     rubiks_cube[3] = turn_face(rubiks_cube[3], True)
-    print(rubiks_cube[3])
     new_cube = rubiks_cube.copy()
     rotate_direction = True if rotate_up else False
     new_cube[2] = turn_face(new_cube[2], rotate_direction)
@@ -94,13 +93,10 @@ def b_action(rubiks_cube, rotate_up):
     rubiks_cube[1] = rubiks_cube[1][::-1,::-1]
     rubiks_cube[0] = turn_face(rubiks_cube[0], False)
     rubiks_cube[3] = turn_face(rubiks_cube[3], True)
-    print(rubiks_cube[3])
     new_cube = rubiks_cube.copy()
     rotate_direction = False if rotate_up else True
     new_cube[5] = turn_face(new_cube[5], rotate_direction)
     rotation_list = np.roll(f_actions, shift=-1 if rotate_up else 1)
-    print(rotate_up)
-    print(rotate_direction)
     for i in range(4):
         new_cube[f_actions[i]][:, -1]  = rubiks_cube[rotation_list[i]][:, -1] 
     new_cube[1] = new_cube[1][::-1,::-1]
@@ -165,28 +161,37 @@ def b_right(rubiks_cube):
 # print("L_DOWN------------------")
 # print(l_down(rubiks_cube))
 
-rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) 
-print("U_LEFT------------------")
-print(u_left(rubiks_cube))
+# rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) 
+# print("U_LEFT------------------")
+# print(u_left(rubiks_cube))
 
-rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) 
-print() 
-print("U_RIGHT------------------")
-print(u_right(rubiks_cube))
-rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) 
+# rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) 
+# print() 
+# print("U_RIGHT------------------")
+# print(u_right(rubiks_cube))
+# rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) 
  
-print("D_LEFT------------------")
-print(d_left(rubiks_cube))
-
-rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) 
-print()
-print("D_RIGHT------------------")
-print(d_right(rubiks_cube))
-
-# print("F_LEFT------------------")
-# print(b_left(rubiks_cube))
+# print("D_LEFT------------------")
+# print(d_left(rubiks_cube))
 
 # rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) 
 # print()
-# print("F_RIGHT------------------")
-# print(b_right(rubiks_cube))
+# print("D_RIGHT------------------")
+# print(d_right(rubiks_cube))
+
+print("F_LEFT------------------")
+print(f_left(rubiks_cube))
+
+rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) 
+print()
+print("F_RIGHT------------------")
+print(f_right(rubiks_cube))
+
+rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) 
+print("B_LEFT------------------")
+print(b_left(rubiks_cube))
+
+rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) 
+print()
+print("B_RIGHT------------------")
+print(b_right(rubiks_cube)) 
