@@ -1,70 +1,114 @@
-# All the moves are centered by the yellow center as front view, 
-# the red face as upper view and the green face as a left lateral view
 import numpy as np
 
-u_face = np.array([[0,0,'u'], [1,1,'u'], [2,2,'u']]) #Red face
-l_face = np.array([[3,3,'l'], [4,4,'l'], [5,5,'l']])#Green face
-f_face = np.array([[6,6,'f'], [7,7,'f'], [8,8,'f']])  #Yellow face
-d_face = np.array([[15,15,'d'], [16,16,'d'], [17,17,'d']])  #Orange face
-r_face = np.array([[9,9,'r'], [10,10,'r'], [11,11,'r']])  #Blue face
-b_face = np.array([['b',12,12], ['b',13,13], ['b',14,14]])  #White face
-
-
-r_actions = [0,2,3,5] #u,f,d,b
-l_actions = [0,2,3,5]
-
-u_actions = [0,1,4,5]
-d_actions = [0,1,4,5]
-
-f_actions = [0,1,3,5]
-b_actions = [0,1,3,5]
-
-def r_action(rubiks_cube, side):
-    face = rubiks_cube[4]
-    rubiks_cube[5] = rubiks_cube[5][:, ::-1] #Sorting the columns to work easier
-    if side == "Up":
-        new_face = turn_face(face)
-        values_to_change = [rubiks_cube[matriz][:, -1] for matriz in r_actions]
-        print(values_to_change)
-        movement = np.roll(values_to_change,1)
-        print(movement)
-        print(r_actions)
-        for i in range(4):
-            print(i)
-            rubiks_cube[r_actions[i]][:, -1] = movement[i]#down   
-    else:
-        new_face = turn_face_prime(face)
-        # for i in range(3):
-        #     rubiks_cube[r_actions[i]][:, -1] = values_to_change[(3-i) % 4]#down  
-    rubiks_cube[4] = new_face
-    rubiks_cube[5] = rubiks_cube[5][:, ::-1]
-    return rubiks_cube
-      
-#1,2,3,0
-
-def turn_face(face):
-    face_reverse = face[::-1]
-    new_face = np.transpose(face_reverse).tolist()
-    return new_face
-
-def turn_face_prime(face):
-    new_face = np.transpose(face).tolist()
-    new_face = new_face[::-1]
-    return new_face
-
-rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) # 0,1,2,3,4,5
-
-face_r_up = turn_face(r_face)
-face_r_down = turn_face_prime(r_face)
-
-
-print("R Arriba")
-print(face_r_up)
-print("R Abajo")
-print(face_r_down)
-
-
-print(r_action(rubiks_cube, "Up"))
-
-            
+class Actions:
+    def __init__(self):
+        #impares son antihorario, primos (')
+        self.actions = []
+        self.faces_dict = {0:4, 1:1, 2:0, 3:3, 4:5, 5:2 }
+        self.r_l_actions = [0,2,3,5]
+        self.u_d_actions = [1,2,4,5]
+        self.b_f_actions = [0,4,3,1]
     
+    #Here the name of the action and the side tu turn are setted        
+    def set_actions(self): 
+        #The actions are order with care to be aeasily to know which follows the clock's movement
+        list_actions = ["r_up", "r_down", "l_down", "l_up", "u_left", "u_right", "d_right", "d_left", "b_left", "b_right", "f_right", "f_left"]
+        for action in list_actions:
+            side = False
+            if "left" in action or "up" in action:
+                side = True
+            self.actions.append((action,side))
+        return self.actions
+    
+    def get_actions(self):
+        return self.actions
+    
+    #Here the user provides the name of the action and returns the index and the side tu turn
+    def get_index_action(self, action):
+        action_name = [action[0] for action in self.actions]
+        index = action_name.index(action)
+        return (index, self.actions[index][1])
+    
+    #This set the direction of the rotation of the face
+    def set_rotate_direction(self, index):
+        return False if index%2 == 0 else True
+    
+    #Rotate the face
+    def turn_face(self, face, prime):
+        if prime:
+            new_face = np.rot90(face, ).tolist()
+        else:
+            new_face = np.rot90(face, 3).tolist()
+        return new_face
+    
+    #Transpose the white or another face
+    def transpose_face(self, face):
+        face_transposed= face[::-1,::-1]
+        return face_transposed
+    
+    #by the index of the action, this get the face that will rotate
+    def get_face_to_turn(self, index):
+        index_action = index//2
+        return self.faces_dict[index_action]
+    
+    #changes the values between the faces involved
+    def change_values(self, actions, original_cube, new_cube, rotation_list, action):
+        if action == 4 or action == 5:
+            for i in range(4):
+                new_cube[actions[i]][:, -1] = original_cube[rotation_list[i]][:, -1]
+        if action == 1 or action == 2:
+            for i in range(4): 
+                new_cube[actions[i]][:, 0] = original_cube[rotation_list[i]][:, 0]
+        if action == 0:
+            for i in range(4):
+                new_cube[actions[i]][0] = original_cube[rotation_list[i]][0]
+        if action == 3:
+            for i in range(4):
+                new_cube[actions[i]][2] = original_cube[rotation_list[i]][2]
+        return new_cube   
+    
+    def do_r_l_actions(self, index, side, rubiks_cube):
+        rotate_direction = self.set_rotate_direction(index)
+        rubiks_cube[5] = self.transpose_face(rubiks_cube[5])
+        face_to_turn = self.get_face_to_turn(index)
+        new_cube = rubiks_cube.copy()
+        new_cube[face_to_turn] = self.turn_face(new_cube[face_to_turn], rotate_direction)
+        rotation_list = np.roll(self.r_l_actions, shift=-1 if side else 1)
+        new_cube = self.change_values(self.r_l_actions, rubiks_cube, new_cube, rotation_list, face_to_turn)
+        new_cube[5] = new_cube[5][::-1,::-1]
+        return new_cube
+    
+    def do_u_d_actions(self, index, side, rubiks_cube):
+        rotate_direction = self.set_rotate_direction(index)
+        face_to_turn = self.get_face_to_turn(index)
+        new_cube = rubiks_cube.copy()
+        new_cube[face_to_turn] = self.turn_face(new_cube[face_to_turn], rotate_direction)
+        rotation_list = np.roll(self.u_d_actions, shift=-1 if side else 1)
+        new_cube = self.change_values(self.u_d_actions, rubiks_cube, new_cube, rotation_list, face_to_turn)
+        return new_cube
+    
+    def do_b_f_actions(self, index, side, rubiks_cube):
+        rubiks_cube[1] = self.transpose_face(rubiks_cube[1])
+        rubiks_cube[0] = self.turn_face(rubiks_cube[0], False)
+        rubiks_cube[3] = self.turn_face(rubiks_cube[3], True)
+        face_to_turn = self.get_face_to_turn(index)
+        rotate_direction = self.set_rotate_direction(index)
+        new_cube = rubiks_cube.copy()
+        new_cube[face_to_turn] = self.turn_face(new_cube[face_to_turn], rotate_direction)
+        rotation_list = np.roll(self.b_f_actions, shift=-1 if side else 1)
+        new_cube = self.change_values(self.b_f_actions, rubiks_cube, new_cube, rotation_list, face_to_turn)
+        new_cube[1] = self.transpose_face(new_cube[1])
+        new_cube[0] = self.turn_face(new_cube[0], True)
+        new_cube[3] = self.turn_face(new_cube[3], False)
+        return new_cube
+     
+    def do_action(self, action, rubiks_cube):
+        index, side = self.get_index_action(action)
+        index_action = index//4
+        if index_action == 0:
+            return self.do_r_l_actions(index, side, rubiks_cube)
+        if  index_action == 1:
+            return self.do_u_d_actions(index, side, rubiks_cube)
+        if  index_action == 2:
+            return self.do_b_f_actions(index, side, rubiks_cube)
+        return 0

@@ -1,30 +1,36 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import ListedColormap
+from Actions import Actions
+from Faces import Cube
 
 # Definir los colores de cada cara del cubo de Rubik
 colores = {
-    1: 'red',       # Cara frontal
-    2: 'orange',    # Cara trasera
+    1: 'yellow',       # Cara frontal
+    2: 'white',    # Cara trasera
     3: 'green',     # Cara izquierda
     4: 'blue',      # Cara derecha
-    5: 'yellow',    # Cara superior
-    6: 'white'      # Cara inferior
+    5: 'red',    # Cara superior
+    6: 'orange'      # Cara inferior
 }
 
 # Definir las matrices que representan las caras del cubo de Rubik
-cara_frontal = [[1, 2, 3], [1, 1, 1], [1, 1, 1]]
-cara_trasera = [[2, 2, 2], [2, 1, 2], [2, 2, 2]]
-cara_izquierda = [[3, 3, 3], [3, 3, 1], [3, 3, 3]]
-cara_derecha = [[4, 4, 4], [4, 4, 4], [4, 4, 4]]
-cara_superior = [[5, 5, 5], [5, 5, 5], [5, 5, 5]]
-cara_inferior = [[6, 6, 6], [6, 6, 6], [6, 6, 6]]
+cube = Cube()
+cube.set_ordered_state()
 cara_invisible = np.zeros((3, 3))
 
+rubiks_cube = cube.get_faces()
+actions = Actions()
+actions.set_actions()
+
+rubiks_cube = actions.do_action("r_up", rubiks_cube) 
+
+
+
 caras = [
-    [cara_invisible, cara_frontal, cara_invisible, cara_invisible],
-    [cara_izquierda, cara_superior, cara_derecha, cara_inferior],
-    [cara_invisible,cara_trasera, cara_invisible, cara_invisible]
+    [cara_invisible, rubiks_cube[0], cara_invisible, cara_invisible],
+    [rubiks_cube[1], rubiks_cube[2], rubiks_cube[4], rubiks_cube[5]],
+    [cara_invisible, rubiks_cube[3], cara_invisible, cara_invisible]
 ]
 
 # Crear un mapeo de colores categóricos
