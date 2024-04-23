@@ -1,31 +1,41 @@
 import numpy as np
-
-class Faces:
-    def __init__(self, cube = []):
-        self.cube = cube
         
-    def set_initial_face(self):
-        u_face = np.array([[0,0,'u'], [1,1,'u'], [2,2,'u']])        #Red face
-        l_face = np.array([[3,3,'l'], [4,4,'l'], [5,5,'l']])        #Green face
-        f_face = np.array([[6,6,'f'], [7,7,'f'], [8,8,'f']])        #Yellow face
-        d_face = np.array([[15,15,'d'], [16,16,'d'], [17,17,'d']])  #Orange face
-        r_face = np.array([[9,9,'r'], [10,10,'r'], [11,11,'r']])    #Blue face
-        b_face = np.array([[12,12,'b'], [13,13,'b'], [14,14,'b']])  #White face
-        self.cube = [u_face, l_face, f_face, d_face, r_face, b_face]
+class Cube:
+    def __init__(self):
+        self.terminal_state = []
+        self.faces = []
+        
+    def set_ordered_state(self): # Set the goal_state
+        u_face = np.array([[5, 5, 5], [5, 5, 5], [5, 5, 5]])        #Red face
+        l_face = np.array([[3, 3, 3], [3, 3, 3], [3, 3, 3]])        #Green face
+        f_face = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]])        #Yellow face
+        d_face = np.array([[6, 6, 6], [6, 6, 6], [6, 6, 6]])  #Orange face
+        r_face = np.array([[4, 4, 4], [4, 4, 4], [4, 4, 4]])    #Blue face
+        b_face = np.array([[2, 2, 2], [2, 2, 2], [2, 2, 2]])  #White face
+        self.faces = np.array([u_face, l_face, f_face, d_face, r_face, b_face])
+        self.terminal_state = self.faces.copy()
+        
+    def initial_state(self, media):#Define the initial state
+        new_faces = []
+        if media == 0:
+            new_faces = self.charge_values_from_file() #charge the values from file
+        else:
+            new_faces = self.charge_values_from_mixer() #charge the values from a mixer
+        self.set_new_faces(new_faces)
+        
+    def charge_values_from_file():
+        
+        
+    def set_new_faces(self, new_faces):#define new state
+        self.faces = new_faces.copy()    
     
-    def set_new_face(self, new_face, face):
-        self.cube[face] = new_face    
+    def get_faces(self):#Return the current state
+        return self.faces
     
-    def get_faces(self):
-        return self.cube
+    def is_terminal(self):#return if the current state is the correct
+        terminal = np.array_equal(self.terminal_state,self.faces)
+        return terminal
     
-    def transpose_face(self, face):
+    def transpose_face(self, face):#transpose a face
         face_transposed= face[::-1,::-1]
         return face_transposed
-    
-    def print_faces(self):
-        for idx, array in enumerate(self.cube):
-            print(f"Cara {idx}:")
-            for row in array:
-                print(" ".join(row))
-            print()
