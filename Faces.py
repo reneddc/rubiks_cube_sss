@@ -17,17 +17,16 @@ class Cube:
         self.faces = np.array([u_face, l_face, f_face, d_face, r_face, b_face])
         self.terminal_state = self.faces.copy()
         
-    def initial_state(self, media):#Define the initial state
+    def set_initial_state(self, media):#Define the initial state
         new_faces = []
         if media == 0:
             new_faces = self.charge_values_from_file() #charge the values from file
-            print(new_faces)
         else:
             new_faces = self.charge_values_from_mixer() #charge the values from a mixer
         self.set_new_faces(new_faces)
         
     def charge_values_from_file(self):
-        new_cube = []  
+        new_cube = []
         face = []
         with open("initial_state.txt", 'r') as archivo:
             lines = archivo.readlines()
@@ -35,19 +34,21 @@ class Cube:
                 if lines[line] != '\n':
                     row = []
                     row = [int(value) for value in lines[line] if value != '\n']
-                    face.append(row) 
+                    face.append(row)
+                    np_face = np.array(face)
                     end_matrix = False
                 else:
                     end_matrix = True
                 if end_matrix or line == len(lines)-1:
-                    new_cube.append(face) 
+                    new_cube.append(np_face)
                     face = []
-        validation_txt = self.validate_file_values(new_cube)
+        np_new_cube = np.array(new_cube)
+        validation_txt = self.validate_file_values(np_new_cube)
         if validation_txt != "Correcto":
-            new_cube = []
+            np_new_cube = []
         print(validation_txt)   
         print() 
-        return new_cube 
+        return np_new_cube 
     
     def validate_file_values(self, faces_to_validate):  
         return self.validations.get_result_validations(faces_to_validate) 
@@ -67,4 +68,4 @@ class Cube:
         return face_transposed
 
 faces = Cube()
-faces.initial_state(0)
+faces.set_initial_state(0)
