@@ -19,11 +19,9 @@ class Faces:
     def get_faces(self):
         return self.cube
     
-    def __str__(self):
-        if self.cube is None:
-            return "El cubo está vacío"
-        else:
-            return "\n".join([str(face) for face in self.cube])
+    def transpose_face(self, face):
+        face_transposed= face[::-1,::-1]
+        return face_transposed
     
     def print_faces(self):
         for idx, array in enumerate(self.cube):

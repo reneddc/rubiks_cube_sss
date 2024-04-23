@@ -27,12 +27,17 @@ def turn_face(face, prime):
         new_face = np.rot90(face, 3).tolist()  # Rotar 90 grados en sentido horario
     return new_face
 
+def set_rotate_direction(action):
+    return False if action%2 == 0 else True
+    
+
 def r_action(rubiks_cube, rotate_up):
     rubiks_cube[5] = rubiks_cube[5][::-1,::-1]
     new_cube = rubiks_cube.copy()
     rotate_direction = False if rotate_up else True
     new_cube[4] = turn_face(new_cube[4], rotate_direction)
     rotation_list = np.roll(r_actions, shift=-1 if rotate_up else 1)
+    print(rotate_direction, rotate_up)
     for i in range(4):
         new_cube[r_actions[i]][:, -1] = rubiks_cube[rotation_list[i]][:, -1]
     new_cube[5] = new_cube[5][::-1,::-1]
@@ -44,13 +49,13 @@ def l_action(rubiks_cube, rotate_up):
     rotate_direction = True if rotate_up else False
     new_cube[1] = turn_face(new_cube[1], rotate_direction)
     rotation_list = np.roll(l_actions, shift=-1 if rotate_up else 1)
+    print(rotate_direction, rotate_up) 
     for i in range(4):
-        print(rubiks_cube[rotation_list[i]][:, 0])
         new_cube[l_actions[i]][:, 0] = rubiks_cube[rotation_list[i]][:, 0]
     new_cube[5] = new_cube[5][::-1,::-1]
-    return new_cube
+    return new_cube 
 
-def u_action(rubiks_cube, rotate_up):
+def u_action(rubiks_cube, rotate_up): 
     new_cube = rubiks_cube.copy()
     rotate_direction = False if rotate_up else True
     new_cube[0] = turn_face(new_cube[0], rotate_direction)
@@ -94,6 +99,8 @@ def b_action(rubiks_cube, rotate_up):
     rotate_direction = False if rotate_up else True
     new_cube[5] = turn_face(new_cube[5], rotate_direction)
     rotation_list = np.roll(f_actions, shift=-1 if rotate_up else 1)
+    print(rotate_up)
+    print(rotate_direction)
     for i in range(4):
         new_cube[f_actions[i]][:, -1]  = rubiks_cube[rotation_list[i]][:, -1] 
     new_cube[1] = new_cube[1][::-1,::-1]
@@ -143,21 +150,21 @@ def b_right(rubiks_cube):
 
 
 # print("R_UP------------------")
-# rubiks_cube = r_up(rubiks_cube)
-# print(rubiks_cube)
+rubiks_cube = r_up(rubiks_cube)
+print(rubiks_cube)
 
 # print()
-# print("R_DOWN------------------")
-# print(r_down(rubiks_cube))
+print("R_DOWN------------------")
+print(r_down(rubiks_cube))
 
-# print()
-# print("L_UP------------------")
-# print(l_up(rubiks_cube))
+print()
+print("L_UP------------------")
+print(l_up(rubiks_cube))  
 
-# rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) 
-# print()
-# print("L_DOWN------------------")
-# print(l_down(rubiks_cube))
+rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) 
+print()
+print("L_DOWN------------------")
+print(l_down(rubiks_cube))
 
 
 # print("U_LEFT------------------")
@@ -176,10 +183,10 @@ def b_right(rubiks_cube):
 # print("D_RIGHT------------------")
 # print(d_right(rubiks_cube))
 
-print("F_LEFT------------------")
-print(b_left(rubiks_cube))
+# print("F_LEFT------------------")
+# print(b_left(rubiks_cube))
 
-rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) 
-print()
-print("F_RIGHT------------------")
-print(b_right(rubiks_cube))
+# rubiks_cube = np.array([u_face, l_face, f_face, d_face, r_face, b_face]) 
+# print()
+# print("F_RIGHT------------------")
+# print(b_right(rubiks_cube))
