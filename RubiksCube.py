@@ -15,7 +15,8 @@ class RubiksCube:
         self.actions.set_actions()
     
     def set_initial_state(self, media):
-        self.cube.set_initial_state(media)
+        self.cube.set_initial_state(media) 
+        self.print_cube(self.get_cube())
         
     def get_cube(self):
         return self.cube.get_faces()
@@ -63,11 +64,13 @@ class RubiksCube:
         plt.show()
 
 
-rubik = RubiksCube()
+rubik = RubiksCube() 
 rubik.set_rubik()
+rubik.set_initial_state(0)
+
 print(rubik.is_terminal())
 rubik.use_action("f_right")
-print(rubik.is_terminal())
+print(rubik.is_terminal()) 
 rubik.use_action("f_left")
 print(rubik.is_terminal())
-
+ 
