@@ -4,6 +4,7 @@ class Cube:
     def __init__(self):
         self.terminal_state = []
         self.faces = []
+        self.validations
         
     def set_ordered_state(self): # Set the goal_state
         u_face = np.array([[5, 5, 5], [5, 5, 5], [5, 5, 5]])        #Red face
@@ -23,9 +24,24 @@ class Cube:
             new_faces = self.charge_values_from_mixer() #charge the values from a mixer
         self.set_new_faces(new_faces)
         
-    def charge_values_from_file():
+    def charge_values_from_file(self):
+        new_cube = []
+        face = []
+        with open("initial_state.txt", 'r') as archivo:
+            for linea in archivo:
+                if linea != '\n':
+                    row = []
+                    row = [value for value in linea if value != '\n']
+                    face.append(row) 
+                else:
+                    new_cube.append(face)
+                    face = []
+        return new_cube
+    
+    def validate_file_values(self, faces_to_validate):
         
-        
+        return 
+            
     def set_new_faces(self, new_faces):#define new state
         self.faces = new_faces.copy()    
     
@@ -39,3 +55,6 @@ class Cube:
     def transpose_face(self, face):#transpose a face
         face_transposed= face[::-1,::-1]
         return face_transposed
+
+faces = Cube()
+print(faces.charge_values_from_file())
