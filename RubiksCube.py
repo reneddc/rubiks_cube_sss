@@ -63,11 +63,11 @@ class RubiksCube:
         plt.show()
 
 
-rubik = RubiksCube()
+rubik = RubiksCube() 
 rubik.set_rubik()
 print(rubik.is_terminal())
 rubik.use_action("f_right")
 print(rubik.is_terminal())
 rubik.use_action("f_left")
 print(rubik.is_terminal())
-
+ 
