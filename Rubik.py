@@ -1,30 +1,33 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import ListedColormap
-from examples import r_up, r_down, l_up, l_down
+from examples import r_up, r_down, l_up, l_down, d_left, d_right, u_left, u_right
 
 # Definir los colores de cada cara del cubo de Rubik
 colores = {
-    1: 'red',       # Cara frontal
-    2: 'orange',    # Cara trasera
+    1: 'yellow',       # Cara frontal
+    2: 'white',    # Cara trasera
     3: 'green',     # Cara izquierda
     4: 'blue',      # Cara derecha
-    5: 'yellow',    # Cara superior
-    6: 'white'      # Cara inferior
+    5: 'red',    # Cara superior
+    6: 'orange'      # Cara inferior
 }
 
 # Definir las matrices que representan las caras del cubo de Rubik
-cara_frontal = [[5, 5, 5], [5, 5, 5], [5, 5, 5]]
+cara_frontal = [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
 cara_trasera = [[2, 2, 2], [2, 2, 2], [2, 2, 2]]
 cara_izquierda = [[3, 3, 3], [3, 3, 3], [3, 3, 3]]
 cara_derecha = [[4, 4, 4], [4, 4, 4], [4, 4, 4]]
-cara_superior = [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
+cara_superior = [[5, 5, 5], [5, 5, 5], [5, 5, 5]]
 cara_inferior = [[6, 6, 6], [6, 6, 6], [6, 6, 6]]
 cara_invisible = np.zeros((3, 3))
 
 rubiks_cube = np.array([cara_superior, cara_izquierda, cara_frontal, cara_inferior, cara_derecha, cara_trasera]) 
 rubiks_cube = r_up(rubiks_cube)
 rubiks_cube = l_up(rubiks_cube)
+rubiks_cube = u_left(rubiks_cube)
+rubiks_cube = d_right(rubiks_cube)
+rubiks_cube = r_up(rubiks_cube)
 
 caras = [
     [cara_invisible, rubiks_cube[0], cara_invisible, cara_invisible],
