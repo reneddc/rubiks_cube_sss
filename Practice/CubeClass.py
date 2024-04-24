@@ -7,17 +7,17 @@ class Cube:
         self.faces = []
         self.validations = Validations()
         
-    def set_ordered_state(self): # Set the goal_state
+    def get_goal_state(self):
         u_face = np.array([[5, 5, 5], [5, 5, 5], [5, 5, 5]])        #Red face
         l_face = np.array([[3, 3, 3], [3, 3, 3], [3, 3, 3]])        #Green face
         f_face = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]])        #Yellow face
-        d_face = np.array([[6, 6, 6], [6, 6, 6], [6, 6, 6]])  #Orange face
-        r_face = np.array([[4, 4, 4], [4, 4, 4], [4, 4, 4]])    #Blue face
-        b_face = np.array([[2, 2, 2], [2, 2, 2], [2, 2, 2]])  #White face
-        self.faces = np.array([u_face, l_face, f_face, d_face, r_face, b_face])
-        self.terminal_state = self.faces.copy()
+        d_face = np.array([[6, 6, 6], [6, 6, 6], [6, 6, 6]])        #Orange face
+        r_face = np.array([[4, 4, 4], [4, 4, 4], [4, 4, 4]])        #Blue face
+        b_face = np.array([[2, 2, 2], [2, 2, 2], [2, 2, 2]])        #White face
+        self.terminal_state = np.array([u_face, l_face, f_face, d_face, r_face, b_face])
+        return self.terminal_state
         
-    def set_initial_state(self, media):#Define the initial state
+    def get_initial_state(self, media):#Define the initial state
         new_faces = []
         if media == 0:
             new_faces = self.charge_values_from_file() #charge the values from file

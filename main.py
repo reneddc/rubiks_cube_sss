@@ -1,33 +1,24 @@
 from State import State
 from SpaceStates import StateSpace
+from Rubik_Cube import RubiksCube
 from Searcher import Searcher
-from RubiksCube import RubiksCube
-from CubeClass import Cube
 
 if __name__ == "__main__":
-    
-    
-    
-    state_values = space_dict.keys()
-
+    debugging = False
     space  = StateSpace()
-
-    for value in state_values:
-        space.add_state(State(value))
-
-    for state, actions in space_dict.items():
-        for action in actions:
-            if type(action) == tuple:
-                space.add_weighted_edge(state, action[0], action[1])
-            else:
-                space.add_edge(state, action)
-
     rubik = RubiksCube()
-    rubik.set_rubik()
-    initial_value = rubik.set_initial_state(0)
-    end_value = rubik.get_terminal_state()
+    initial_state = State(rubik.get_initial_state(0)) #charging the values from the file
+    goal_state = State(rubik.get_goal_state()) #Charging the terminal state
+    # initial_state.print_cube()
+    # goal_state.print_cube()
+    
+    space.add_state(initial_state)
+    space.add_state(goal_state)
+    
+    searcher = Searcher(space, debug=debugging)
+    
+    print("Buscar en costo uniforme")
+    path, cost = searcher.uniform_cost(initial_state.value, goal_state.value)
+    print(path, "costo:", cost) 
+ 
 
-    searcher = Searcher(space)
-
-    print("Buscando en costo uniforme")
-    print(searcher.uniform_cost(initial_value, end_value))

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 
-from Faces import Cube
+from CubeClass import Cube
 from Actions import Actions
 
 class RubiksCube:
@@ -11,12 +11,13 @@ class RubiksCube:
         self.actions = Actions()
         
     def set_rubik(self):
-        self.cube.set_ordered_state()
         self.actions.set_actions()
     
-    def set_initial_state(self, media):
-        self.cube.set_initial_state(media) 
-        self.print_cube(self.get_cube())
+    def get_initial_state(self, media):
+        return self.cube.set_initial_state(media) 
+        
+    def get_goal_state(self):
+        return self.cube.get_goal_state()
         
     def get_cube(self):
         return self.cube.get_faces()

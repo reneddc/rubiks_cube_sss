@@ -2,16 +2,29 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import json
-from Faces_Validations import Validations
+from Actions import Actions
         
 class Cube:
     def __init__(self, matrix):
         self.matrix = matrix.copy()
-        self.hash_value
+        self.hash_value = ""
+        self.list_movements = ["r_up", "r_down", "l_down", "l_up", "u_left", "u_right", "d_right", "d_left", "b_left", "b_right", "f_right", "f_left"]
         
     def get_hash_value(self):
-        self.get_hash_value = json.dumps(self.matrix, sort_keys=True)
-        return self.get_hash_value()
+        clave = ""
+        for i, sublist in enumerate(self.matrix):
+            for j, valor in enumerate(sublist):
+                clave += f"{i}-{j}-{valor}-"
+        return hash(clave)
+        
+    def get_movements(self):
+        list_tuples = []
+        movements = Actions()
+        movements.set_actions()
+        for mov in self.list_movements:
+            tuple_movements = (movements.do_action(mov, self.matrix).copy(),1,mov)
+            list_tuples.append(tuple_movements)
+        return list_tuples
     
     def print_cube(self):
         colores = {
