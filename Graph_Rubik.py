@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import ListedColormap
 from Actions import Actions
-from Faces import Cube
+from CubeClass import Cube
 
 # Definir los colores de cada cara del cubo de Rubik
 colores = {
