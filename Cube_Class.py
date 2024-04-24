@@ -9,7 +9,13 @@ class Cube:
         self.matrix = matrix.copy()
         self.hash_value = ""
         self.list_movements = ["r_up", "r_down", "l_down", "l_up", "u_left", "u_right", "d_right", "d_left", "b_left", "b_right", "f_right", "f_left"]
-        
+    
+    def get_list_movements(self):
+        return self.list_movements
+    
+    def get_matrix(self):
+        return self.matrix
+    
     def get_hash_value(self):
         clave = ""
         for i, sublist in enumerate(self.matrix):

@@ -2,11 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from Cube_Class import Cube
-from Faces_Validations import Validations
+from Validations import Validations
+import random
+from Actions import Actions
 
 class RubiksCube:
     def __init__(self):
         self.validations = Validations()
+        self.terminal_state = []
     
     def get_initial_state(self, media):#Return a Cube()
         initial_state = []
@@ -44,6 +47,17 @@ class RubiksCube:
     
     def validate_file_values(self, faces_to_validate):  
         return self.validations.get_result_validations(faces_to_validate) 
+    
+    def charge_values_from_mixer(self):
+        movements = Actions()
+        list_movs = movements.set_actions()
+        self.get_goal_state()
+        cube = self.terminal_state.get_matrix()
+        for i in range(20):#20 movements random
+            next_mov = random.randint(0,11)
+            cube = movements.do_action(list_movs[next_mov][0], cube)
+        return cube
+        
         
     def get_goal_state(self): #Return a Cube()
         u_face = np.array([[5, 5, 5], [5, 5, 5], [5, 5, 5]])        #Red face
@@ -52,8 +66,8 @@ class RubiksCube:
         d_face = np.array([[6, 6, 6], [6, 6, 6], [6, 6, 6]])        #Orange face
         r_face = np.array([[4, 4, 4], [4, 4, 4], [4, 4, 4]])        #Blue face
         b_face = np.array([[2, 2, 2], [2, 2, 2], [2, 2, 2]])        #White face
-        terminal_state = Cube(np.array([u_face, l_face, f_face, d_face, r_face, b_face]))
-        return terminal_state
+        self.terminal_state = Cube(np.array([u_face, l_face, f_face, d_face, r_face, b_face]))
+        return self.terminal_state
         
     def set_new_state(self, new_cube):
         self.cube.set_new_faces(new_cube)

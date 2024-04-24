@@ -6,11 +6,9 @@ class StateSpace():
         self.states = {}
 
     def add_state(self, state):
-        print(state.value)
         self.states[state.value] = state #A dictionary of states {hash_value1: (State(),weight), hash_value2: (State(),weight)}
         actions = self.states[state.value].get_actions()
         for action in actions:
-            print(action[0])
             list_tuple = list(action)
             list_tuple[0] = State(Cube(action[0]))
             new_action_tuple = tuple(list_tuple)

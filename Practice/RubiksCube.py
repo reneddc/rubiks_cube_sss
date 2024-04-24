@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 
-from CubeClass import Cube
+from Practice.CubeClass import Cube
 from Actions import Actions
 
 class RubiksCube:
