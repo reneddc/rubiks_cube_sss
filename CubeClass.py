@@ -66,6 +66,6 @@ class Cube:
     def transpose_face(self, face):#transpose a face
         face_transposed= face[::-1,::-1]
         return face_transposed
-
-faces = Cube()
-faces.set_initial_state(0)
+    
+    def get_terminal_cube(self):
+        return self.terminal_state
